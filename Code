@@ -1,0 +1,36 @@
+# Packet Sniffer Tool
+
+from scapy.all import sniff, TCP, UDP, ICMP, IP, raw
+import logging
+
+# Set up logging
+logging.basicConfig(filename='packet_log.txt', level=logging.INFO, format='%(asctime)s: %(message)s')
+
+def packet_callback(packet):
+    """
+    Analyzes the packet and logs relevant information.
+    """
+    if packet.haslayer(IP):
+        src_ip = packet[IP].src
+        dst_ip = packet[IP].dst
+        protocol = packet[IP].proto
+
+        if protocol == 6:  # TCP
+            src_port = packet[TCP].sport
+            dst_port = packet[TCP].dport
+            logging.info(f'TCP Packet: {src_ip}:{src_port} -> {dst_ip}:{dst_port}')
+        elif protocol == 17:  # UDP
+            src_port = packet[UDP].sport
+            dst_port = packet[UDP].dport
+            logging.info(f'UDP Packet: {src_ip}:{src_port} -> {dst_ip}:{dst_port}')
+        elif protocol == 1:  # ICMP
+            logging.info(f'ICMP Packet: {src_ip} -> {dst_ip}')
+        else:
+            logging.info(f'Unknown Protocol Packet: {src_ip} -> {dst_ip}')
+
+        if packet.haslayer(raw):
+            payload = packet[raw].load
+            logging.info(f'Payload: {payload}')
+
+# Start sniffing
+sniff(prn=packet_callback, store=0)

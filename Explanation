@@ -1,0 +1,11 @@
+Here's how the program works:
+
+The packet_callback function is called for each packet captured. It analyzes the packet and logs relevant information such as source and destination IP addresses, protocols, and payload data.
+The sniff function is used to start capturing packets. The prn parameter specifies the callback function to call for each packet, and the store parameter is set to 0 to prevent packets from being stored in memory.
+Example Usage:
+
+Run the program using python packet_sniffer.py.
+Open a web browser and navigate to a website (e.g., http://www.example.com).
+Observe the packet log file (packet_log.txt) to see the captured packets.
+Stop the program by pressing Ctrl+C.
+Note: This is a basic example, and you may want to modify the program to suit your specific needs. Additionally, be sure to use this program responsibly and with the consent of the network administrator.
